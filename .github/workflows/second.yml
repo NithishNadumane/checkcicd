@@ -1,109 +1,82 @@
-name: Real Dev CI Demo (Echo Only)
+name: Real Dev CI Demo
 
 on:
   push:
+    branches: ["main"]
+
   pull_request:
+    branches: ["main"]
+
+  workflow_dispatch:
 
 jobs:
   ci-pipeline:
     runs-on: ubuntu-latest
 
     steps:
-      # ------------------------------------------------------
-      # STEP 1 → CHECKOUT CODE
-      # ------------------------------------------------------
+
+      # STEP 1: CHECKOUT CODE
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # ------------------------------------------------------
-      # STEP 2 → INSTALL DEPENDENCIES (SIMULATED)
-      # ------------------------------------------------------
-      - name: Install Dependencies (Java/Node/Python)
+      # STEP 2: INSTALL DEPENDENCIES (SIMULATED)
+      - name: Install Dependencies
         run: |
-          echo "Installing Java dependencies → mvn install"
-          echo "Installing Node dependencies → npm install"
-          echo "Installing Python deps → pip install -r requirements.txt"
+          echo "Installing Java dependencies -> mvn install"
+          echo "Installing Node dependencies -> npm install"
+          echo "Installing Python dependencies -> pip install"
           echo "Dependencies installed."
 
-      # ------------------------------------------------------
-      # STEP 3 → LINT (SIMULATED)
-      # ------------------------------------------------------
-      - name: Lint Code (Simulated)
+      # STEP 3: LINT (SIMULATED)
+      - name: Lint Code
         run: |
           echo "Running linter..."
-          echo "Simulating: eslint . || flake8 || mvn checkstyle"
-          echo "Lint result: No issues found."
+          echo "Lint completed successfully."
 
-      # ------------------------------------------------------
-      # STEP 4 → BUILD (SIMULATED)
-      # ------------------------------------------------------
-      - name: Build Project (Simulated)
+      # STEP 4: BUILD (SIMULATED)
+      - name: Build Project
         run: |
-          echo "Building project for all languages..."
-          echo "Java → mvn clean package"
-          echo "Node → npm run build"
-          echo "Python → python setup.py build"
-          echo "Build step completed."
+          echo "Building project..."
+          echo "Java -> mvn clean package"
+          echo "Node -> npm run build"
+          echo "Python -> python setup.py build"
+          echo "Build completed successfully."
 
-      # ------------------------------------------------------
-      # STEP 5 → RUN TESTS (SIMULATED)
-      # ------------------------------------------------------
-      - name: Test Project (Simulated)
+      # STEP 5: TEST (SIMULATED)
+      - name: Run Tests
         run: |
           echo "Running unit tests..."
-          echo "Java → mvn test"
-          echo "Node → npm test"
-          echo "Python → pytest"
-          echo "All test suites passed successfully."
+          echo "All tests passed successfully."
 
-      # ------------------------------------------------------
-      # STEP 6 → PACKAGE ARTIFACTS (SIMULATED)
-      # ------------------------------------------------------
-      - name: Package Artifacts (Simulated)
+      # STEP 6: PACKAGE ARTIFACT
+      - name: Package Artifacts
         run: |
           echo "Packaging build artifacts..."
-          echo "Simulating .jar, .zip, build folders"
-          echo "Artifacts ready for upload."
+          mkdir -p build
+          echo "Sample build artifact" > build/app.txt
+          echo "Artifact created."
 
-      # ------------------------------------------------------
-      # STEP 7 → UPLOAD ARTIFACTS (SIMULATED)
-      # ------------------------------------------------------
+      # STEP 7: UPLOAD ARTIFACT
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifacts-demo
-          path: .
-        # Uploading entire folder just for demo, not real.
+          name: build-artifacts
+          path: build/
 
-      # ------------------------------------------------------
-      # STEP 8 → DOCKER BUILD (SIMULATED)
-      # ------------------------------------------------------
-      - name: Build Docker Image (Simulated)
+      # STEP 8: DOCKER BUILD (SIMULATED)
+      - name: Build Docker Image
         run: |
           echo "Building Docker image..."
           echo "docker build -t myapp:latest ."
-          echo "Docker image built."
+          echo "Docker image built successfully."
 
-      # ------------------------------------------------------
-      # STEP 9 → DOCKER PUSH (SIMULATED)
-      # ------------------------------------------------------
-      - name: Push Docker Image (Simulated)
+      # STEP 9: DOCKER PUSH (SIMULATED)
+      - name: Push Docker Image
         run: |
           echo "Logging into Docker registry..."
           echo "docker push myapp:latest"
-          echo "Image pushed."
+          echo "Docker image pushed successfully."
 
-      # ------------------------------------------------------
-      # STEP 10 → NOTIFICATION + FAILURE DEMO
-      # ------------------------------------------------------
+      # STEP 10: FINAL STATUS
       - name: Final Status
-        run: echo "CI pipeline finished."
-
-      - name: Intentional Failure (Debug Demo)
-        run: |
-          echo "Simulating failure for debugging..."
-          exit 1
-
-      - name: Failure Handler
-        if: failure()
-        run: echo "Pipeline failed. Check logs above!"
+        run: echo "CI pipeline finished successfully."
